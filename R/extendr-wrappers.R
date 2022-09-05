@@ -8,7 +8,15 @@
 #' @useDynLib helloextendr, .registration = TRUE
 NULL
 
-#' Return string `"Hello world!"` to R.
+MyStruct <- new.env(parent = emptyenv())
+
+MyStruct$new <- function() .Call(wrap__MyStruct__new)
+
+MyStruct$restore_from_robj <- function(robj) .Call(wrap__MyStruct__restore_from_robj, robj)
+
 #' @export
-hello_world <- function() .Call(wrap__hello_world)
+`$.MyStruct` <- function (self, name) { func <- MyStruct[[name]]; environment(func) <- environment(); func }
+
+#' @export
+`[[.MyStruct` <- `$.MyStruct`
 
