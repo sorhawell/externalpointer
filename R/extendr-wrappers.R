@@ -20,3 +20,15 @@ MyStruct$restore_from_robj <- function(robj) .Call(wrap__MyStruct__restore_from_
 #' @export
 `[[.MyStruct` <- `$.MyStruct`
 
+SomethingElse <- new.env(parent = emptyenv())
+
+SomethingElse$new <- function() .Call(wrap__SomethingElse__new)
+
+SomethingElse$try_restore_from_robj <- function(robj) .Call(wrap__SomethingElse__try_restore_from_robj, robj)
+
+#' @export
+`$.SomethingElse` <- function (self, name) { func <- SomethingElse[[name]]; environment(func) <- environment(); func }
+
+#' @export
+`[[.SomethingElse` <- `$.SomethingElse`
+
